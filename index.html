@@ -212,7 +212,7 @@
   }
   .hero .handle a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(206,158,63,0.4);}
 
-  .hero-video-wrap{opacity:0; animation:rise .1s ease forwards .3s;}
+  .hero-video-wrap{opacity:0; animation:rise .8s ease forwards .6s;}
   .video-card{
     display:flex;
     flex-direction:column;
@@ -232,7 +232,7 @@
     transition:transform .25s ease, border-color .25s ease;
   }
   .video-card:hover{transform:translateY(-3px); border-color:rgba(242,230,201,0.34);}
-  @media (max-width:100px){ .video-card{aspect-ratio:16/9;} }
+  @media (max-width:900px){ .video-card{aspect-ratio:16/9;} }
   .play-btn{
     width:60px; height:60px;
     border-radius:50%;
@@ -253,8 +253,8 @@
     padding:28px;
   }
   .video-modal.open{display:flex;}
-  .video-modal-inner{position:relative; width:50%; max-width:50px;}
-  .video-modal-inner video{width:50%; display:block; border-radius:4px; background:#000; aspect-ratio:16/9;}
+  .video-modal-inner{position:relative; width:100%; max-width:920px;}
+  .video-modal-inner video{width:100%; display:block; border-radius:4px; background:#000; aspect-ratio:16/9;}
   .video-modal-close{
     position:absolute; top:-46px; right:0;
     background:none; border:none; color:var(--paper);
@@ -513,10 +513,6 @@
 
   <!-- HERO -->
   <section class="hero">
-      <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-            <source src="Download.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
     <div class="hero-texture" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
@@ -529,10 +525,29 @@
         </div>
         <p class="handle">Follow the kitchen on TikTok — <a href="https://www.tiktok.com/@tewedajagelgil" target="_blank" rel="noopener">@tewedajagelgil</a></p>
       </div>
+
+      <div class="hero-video-wrap">
+        <button class="video-card" id="openVideo" aria-haspopup="dialog">
+          <span class="play-btn" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M6 4l13 7-13 7V4z" fill="currentColor"/></svg>
+          </span>
+          <span class="video-label">Inside the kitchen<br><span>Watch the 90-second story</span></span>
+        </button>
+      </div>
     </div>
   </section>
 
- 
+  <!-- VIDEO LIGHTBOX -->
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="video-modal-inner">
+      <button class="video-modal-close" id="closeVideo" aria-label="Close video">&times;</button>
+      <!-- Replace the source below with your own hosted video file, or swap this <video> block for a YouTube/Vimeo <iframe> -->
+      <video id="heroVideo" controls playsinline poster="">
+        <source src="REPLACE-WITH-YOUR-VIDEO-URL.mp4" type="video/mp4">
+        Your browser doesn't support embedded video — add a direct video link here.
+      </video>
+    </div>
+  </div>
 
   <!-- ABOUT -->
   <section class="about" id="about">
