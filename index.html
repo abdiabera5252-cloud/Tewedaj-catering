@@ -513,6 +513,10 @@
 
   <!-- HERO -->
   <section class="hero">
+      <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+            <source src="marti1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     <div class="hero-texture" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
@@ -528,17 +532,7 @@
     </div>
   </section>
 
-  <!-- VIDEO LIGHTBOX -->
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="video-modal-inner">
-      <button class="video-modal-close" id="closeVideo" aria-label="Close video">&times;</button>
-      <!-- Replace the source below with your own hosted video file, or swap this <video> block for a YouTube/Vimeo <iframe> -->
-      <video id="heroVideo" controls playsinline poster="">
-        <source src="Download.mp4" type="video/mp4">
-        Your browser doesn't support embedded video — add a direct video link here.
-      </video>
-    </div>
-  </div>
+ 
 
   <!-- ABOUT -->
   <section class="about" id="about">
