@@ -213,53 +213,48 @@
   .hero .handle a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(206,158,63,0.4);}
 
   .hero-video-wrap{opacity:0; animation:rise .8s ease forwards .6s;}
-  .video-card{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    justify-content:flex-end;
-    gap:18px;
+  .video-frame{
+    position:relative;
     width:100%;
     aspect-ratio:4/5;
-    padding:26px;
     border-radius:4px;
+    overflow:hidden;
     border:1px solid rgba(242,230,201,0.18);
     background:
       radial-gradient(circle at 1px 1px, rgba(242,230,201,0.10) 1px, transparent 0) 0 0/15px 15px,
       linear-gradient(160deg, #4A2E1B, var(--coffee-2) 70%);
-    cursor:pointer;
-    text-align:left;
-    transition:transform .25s ease, border-color .25s ease;
   }
-  .video-card:hover{transform:translateY(-3px); border-color:rgba(242,230,201,0.34);}
-  @media (max-width:900px){ .video-card{aspect-ratio:16/9;} }
-  .play-btn{
-    width:60px; height:60px;
-    border-radius:50%;
-    background:var(--gold);
-    color:var(--coffee-2);
+  @media (max-width:900px){ .video-frame{aspect-ratio:16/9;} }
+  .video-frame video{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .7s ease;
+  }
+  .video-frame video.is-loaded{opacity:1;}
+  .video-frame::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.45));
+    pointer-events:none;
+  }
+  .video-label{
+    position:absolute; left:22px; bottom:20px; z-index:2;
+    font-size:0.94rem; color:var(--paper); font-weight:500;
+    text-shadow:0 2px 10px rgba(0,0,0,0.45);
+  }
+  .mute-toggle{
+    position:absolute; top:16px; right:16px; z-index:2;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(15,9,4,0.5);
+    border:1px solid rgba(242,230,201,0.32);
+    color:var(--paper);
     display:flex; align-items:center; justify-content:center;
-    transition:transform .2s ease;
+    cursor:pointer;
+    transition:background .2s ease;
   }
-  .video-card:hover .play-btn{transform:scale(1.06);}
-  .play-btn svg{margin-left:3px;}
-  .video-label{font-size:0.98rem; color:var(--paper); font-weight:500; line-height:1.4;}
-  .video-label span{display:block; font-size:0.84rem; font-weight:400; color:rgba(242,230,201,0.6); margin-top:3px;}
-
-  .video-modal{
-    position:fixed; inset:0; z-index:100;
-    background:rgba(15,9,4,0.94);
-    display:none; align-items:center; justify-content:center;
-    padding:28px;
-  }
-  .video-modal.open{display:flex;}
-  .video-modal-inner{position:relative; width:100%; max-width:920px;}
-  .video-modal-inner video{width:100%; display:block; border-radius:4px; background:#000; aspect-ratio:16/9;}
-  .video-modal-close{
-    position:absolute; top:-46px; right:0;
-    background:none; border:none; color:var(--paper);
-    font-size:2rem; line-height:1; cursor:pointer; padding:6px;
-  }
+  .mute-toggle:hover{background:rgba(15,9,4,0.72);}
 
   @keyframes rise{
     from{opacity:0; transform:translateY(16px);}
@@ -527,27 +522,20 @@
       </div>
 
       <div class="hero-video-wrap">
-        <button class="video-card" id="openVideo" aria-haspopup="dialog">
-          <span class="play-btn" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M6 4l13 7-13 7V4z" fill="currentColor"/></svg>
-          </span>
-          <span class="video-label">Inside the kitchen<br><span>Watch the 90-second story</span></span>
-        </button>
+        <div class="video-frame">
+          <!-- Replace the source below with your own hosted video file (keep it muted+looping for autoplay to work in every browser) -->
+          <video id="heroVideo" autoplay muted loop playsinline>
+            <source src="REPLACE-WITH-YOUR-VIDEO-URL.mp4" type="video/mp4">
+          </video>
+          <button class="mute-toggle" id="muteToggle" aria-label="Unmute video">
+            <svg id="muteIconMuted" width="16" height="16" viewBox="0 0 16 16"><path d="M2 6v4h2.5L9 13V3L4.5 6H2z" fill="currentColor"/><path d="M11.5 6.5l3 3M14.5 6.5l-3 3" stroke="currentColor" stroke-width="1.3"/></svg>
+            <svg id="muteIconSound" width="16" height="16" viewBox="0 0 16 16" style="display:none;"><path d="M2 6v4h2.5L9 13V3L4.5 6H2z" fill="currentColor"/><path d="M11 5.5a3 3 0 0 1 0 5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+          </button>
+          <span class="video-label">Inside the kitchen</span>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- VIDEO LIGHTBOX -->
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="video-modal-inner">
-      <button class="video-modal-close" id="closeVideo" aria-label="Close video">&times;</button>
-      <!-- Replace the source below with your own hosted video file, or swap this <video> block for a YouTube/Vimeo <iframe> -->
-      <video id="heroVideo" controls playsinline poster="">
-        <source src="Download.mp4" type="video/mp4">
-        Your browser doesn't support embedded video — add a direct video link here.
-      </video>
-    </div>
-  </div>
 
   <!-- ABOUT -->
   <section class="about" id="about">
@@ -929,28 +917,30 @@
   });
 
   // Hero video lightbox
-  var openVideo = document.getElementById('openVideo');
-  var videoModal = document.getElementById('videoModal');
-  var closeVideo = document.getElementById('closeVideo');
   var heroVideo = document.getElementById('heroVideo');
-  function openVideoModal(){
-    videoModal.classList.add('open');
-    videoModal.setAttribute('aria-hidden','false');
-    heroVideo.play().catch(function(){ /* no source wired up yet */ });
+  var muteToggle = document.getElementById('muteToggle');
+  var muteIconMuted = document.getElementById('muteIconMuted');
+  var muteIconSound = document.getElementById('muteIconSound');
+
+  if(heroVideo){
+    heroVideo.addEventListener('loadeddata', function(){
+      heroVideo.classList.add('is-loaded');
+    });
+    // Muted autoplay is allowed by every major browser; this plays it the moment the page opens.
+    var playPromise = heroVideo.play();
+    if(playPromise !== undefined){
+      playPromise.catch(function(){ /* autoplay blocked by the browser — video stays paused until the user interacts */ });
+    }
   }
-  function closeVideoModal(){
-    videoModal.classList.remove('open');
-    videoModal.setAttribute('aria-hidden','true');
-    heroVideo.pause();
+
+  if(muteToggle && heroVideo){
+    muteToggle.addEventListener('click', function(){
+      heroVideo.muted = !heroVideo.muted;
+      muteToggle.setAttribute('aria-label', heroVideo.muted ? 'Unmute video' : 'Mute video');
+      muteIconMuted.style.display = heroVideo.muted ? 'block' : 'none';
+      muteIconSound.style.display = heroVideo.muted ? 'none' : 'block';
+    });
   }
-  openVideo.addEventListener('click', openVideoModal);
-  closeVideo.addEventListener('click', closeVideoModal);
-  videoModal.addEventListener('click', function(e){
-    if(e.target === videoModal){ closeVideoModal(); }
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape'){ closeVideoModal(); }
-  });
 
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
